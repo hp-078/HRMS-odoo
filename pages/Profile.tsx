@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { User } from '../types';
+import { User, UserRole } from '../types';
 import { api } from '../services/api';
 
 interface ProfileProps {
@@ -43,7 +43,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
                onClick={() => setIsEditing(!isEditing)}
                className="bg-white text-primary px-4 py-2 rounded-custom font-bold text-sm shadow hover:bg-softBg"
              >
-               {isEditing ? 'Cancel Editing' : 'Edit Profile'}
+               {isEditing ? 'Cancel Editing' : `Edit ${isEmployee ? 'Name' : 'Profile'}`}
              </button>
           </div>
         </div>
