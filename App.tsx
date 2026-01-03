@@ -17,7 +17,9 @@ import Payroll from './pages/Payroll.tsx';
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [view, setView] = useState<'LANDING' | 'AUTH' | 'APP'>('LANDING');
-  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    return localStorage.getItem('dayflow_activeTab') || 'dashboard';
+  });
   const [authMode, setAuthMode] = useState<'LOGIN' | 'SIGNUP'>('LOGIN');
   const [selectedRole, setSelectedRole] = useState<UserRole>(UserRole.EMPLOYEE);
   
@@ -31,10 +33,22 @@ const App: React.FC = () => {
     mockDb.init();
     const session = mockDb.getSession();
     if (session) {
-      setUser(session);
-      setView('APP');
+      // Try to fetch fresh data from backend if available
+      api.login(session.email).then(freshUser => {
+        setUser(freshUser);
+        setView('APP');
+      }).catch(() => {
+        // If backend is not available, use session data
+        setUser(session);
+        setView('APP');
+      });
     }
   }, []);
+
+  // Save activeTab to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('dayflow_activeTab', activeTab);
+  }, [activeTab]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,6 +83,7 @@ const App: React.FC = () => {
     setUser(null);
     setView('LANDING');
     setActiveTab('dashboard');
+    localStorage.removeItem('dayflow_activeTab');
     setEmail('');
     setPassword('');
     setError('');

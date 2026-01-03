@@ -37,7 +37,16 @@ app.post('/api/auth/login', async (req, res) => {
       designation: user.designation,
       joiningDate: user.joiningDate,
       salary: user.salary,
-      avatar: user.avatar
+      avatar: user.avatar,
+      salaryInfo: user.salaryInfo,
+      dateOfBirth: user.dateOfBirth,
+      workingAddress: user.workingAddress,
+      nationality: user.nationality,
+      personalEmail: user.personalEmail,
+      bankName: user.bankName,
+      bankAccount: user.bankAccount,
+      gender: user.gender,
+      maritalStatus: user.maritalStatus
     };
     res.json(userData);
   } catch (err) {
@@ -87,7 +96,16 @@ app.post('/api/auth/signup', async (req, res) => {
       designation: user.designation,
       joiningDate: user.joiningDate,
       salary: user.salary,
-      avatar: user.avatar
+      avatar: user.avatar,
+      salaryInfo: user.salaryInfo,
+      dateOfBirth: user.dateOfBirth,
+      workingAddress: user.workingAddress,
+      nationality: user.nationality,
+      personalEmail: user.personalEmail,
+      bankName: user.bankName,
+      bankAccount: user.bankAccount,
+      gender: user.gender,
+      maritalStatus: user.maritalStatus
     });
   } catch (err) {
     console.error(`[ERROR] Signup failed: ${err.message}`);

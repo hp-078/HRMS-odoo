@@ -86,9 +86,9 @@ const LeaveManagement: React.FC<LeaveProps> = ({ user }) => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { label: 'Annual Leave', value: '12 Days Left', color: 'bg-white border-blue-500 text-blue-700' },
-          { label: 'Sick Leave', value: '5 Days Left', color: 'bg-white border-green-500 text-green-700' },
-          { label: 'Unpaid Leave', value: 'Unlimited', color: 'bg-white border-gray-400 text-gray-700' },
+          { label: 'Annual Leave', value: '30 Days Left', color: 'bg-white border-blue-500 text-blue-700' },
+          { label: 'Sick Leave', value: '10 Days Left', color: 'bg-white border-green-500 text-green-700' },
+          { label: 'Unpaid Leave', value: '20 Days Left', color: 'bg-white border-gray-400 text-gray-700' },
         ].map((card, i) => (
           <div key={i} className={`p-6 rounded-custom custom-shadow border-l-4 ${card.color}`}>
             <p className="text-[10px] uppercase font-bold tracking-widest text-mutedText">{card.label}</p>

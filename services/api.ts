@@ -40,6 +40,13 @@ export const api = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
       });
+      // Update local storage with fresh data from backend
+      const users = mockDb.getUsers();
+      const idx = users.findIndex(u => u.id === user.id);
+      if (idx !== -1) {
+        users[idx] = user;
+        mockDb.saveUsers(users);
+      }
       mockDb.setSession(user);
       return user;
     } catch (err: any) {
@@ -105,17 +112,28 @@ export const api = {
 
   updateEmployee: async (id: string, updates: Partial<User>): Promise<User> => {
     try {
-      return await handleFetch(`${BASE_URL}/employees/${id}`, {
+      const updatedUser = await handleFetch(`${BASE_URL}/employees/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
       });
+      // Update session if the updated user is the current logged-in user
+      const session = mockDb.getSession();
+      if (session && session.id === id) {
+        mockDb.setSession(updatedUser);
+      }
+      return updatedUser;
     } catch (err: any) {
       const users = mockDb.getUsers();
       const idx = users.findIndex(u => u.id === id);
       if (idx !== -1) {
         users[idx] = { ...users[idx], ...updates };
         mockDb.saveUsers(users);
+        // Update session if the updated user is the current logged-in user
+        const session = mockDb.getSession();
+        if (session && session.id === id) {
+          mockDb.setSession(users[idx]);
+        }
         return users[idx];
       }
       throw err;

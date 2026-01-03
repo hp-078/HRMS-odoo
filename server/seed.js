@@ -18,7 +18,30 @@ const dummyUsers = [
     department: 'Human Resources',
     designation: 'HR Director',
     joiningDate: new Date('2023-01-01'),
-    salary: 120000,
+    salary: 50000,
+    salaryInfo: {
+      wageType: 'Fixed wage',
+      monthlyWage: 50000,
+      yearlyWage: 600000,
+      workingDaysPerWeek: 5,
+      components: [
+        { name: 'Basic Rent Allowance', amount: 500000, percentage: 40, period: 'month' },
+        { name: 'House Rent Allowance', amount: 100000, percentage: 20, period: 'month' },
+        { name: 'Standard Allowance', amount: 750.87, percentage: 0.15, period: 'month' },
+        { name: 'Performance Bonus', amount: 250.00, percentage: 0.05, period: 'month' },
+        { name: 'Gross Total Allowances', amount: 100.50, percentage: 0.02, period: 'month' },
+        { name: 'Leave Travel Allowance', amount: 100.50, percentage: 0.02, period: 'month' },
+        { name: 'Fixed Allowance', amount: 100.50, percentage: 0.02, period: 'month' }
+      ]
+    },
+    dateOfBirth: '1985-06-15',
+    workingAddress: 'HQ, New York',
+    nationality: 'American',
+    personalEmail: 'admin.personal@email.com',
+    bankName: 'Chase Bank',
+    bankAccount: '****1234',
+    gender: 'Male',
+    maritalStatus: 'Married',
     avatar: 'https://ui-avatars.com/api/?name=System+Admin&background=714B67&color=fff'
   },
   {
@@ -32,6 +55,26 @@ const dummyUsers = [
     designation: 'Senior Developer',
     joiningDate: new Date('2023-03-15'),
     salary: 95000,
+    salaryInfo: {
+      wageType: 'Fixed wage',
+      monthlyWage: 95000,
+      yearlyWage: 1140000,
+      workingDaysPerWeek: 5,
+      components: [
+        { name: 'Basic Rent Allowance', amount: 38000, percentage: 40, period: 'month' },
+        { name: 'House Rent Allowance', amount: 19000, percentage: 20, period: 'month' },
+        { name: 'Standard Allowance', amount: 142.50, percentage: 0.15, period: 'month' },
+        { name: 'Performance Bonus', amount: 47.50, percentage: 0.05, period: 'month' }
+      ]
+    },
+    dateOfBirth: '1990-04-12',
+    workingAddress: 'Tech Park, Building A',
+    nationality: 'American',
+    personalEmail: 'john.personal@email.com',
+    bankName: 'Bank of America',
+    bankAccount: '****5678',
+    gender: 'Male',
+    maritalStatus: 'Single',
     avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=017E84&color=fff'
   },
   {

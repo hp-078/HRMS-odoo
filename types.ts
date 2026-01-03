@@ -17,6 +17,21 @@ export enum AttendanceStatus {
   ON_LEAVE = 'ON_LEAVE'
 }
 
+export interface SalaryComponent {
+  name: string;
+  amount: number;
+  percentage: number;
+  period: 'month' | 'yearly';
+}
+
+export interface SalaryInfo {
+  wageType: 'Fixed wage' | 'Hourly wage';
+  monthlyWage: number;
+  yearlyWage: number;
+  workingDaysPerWeek: number;
+  components: SalaryComponent[];
+}
+
 export interface User {
   id: string;
   employeeId: string;
@@ -28,6 +43,16 @@ export interface User {
   designation: string;
   joiningDate: string;
   salary: number;
+  salaryInfo?: SalaryInfo;
+  dateOfBirth?: string;
+  workingAddress?: string;
+  nationality?: string;
+  personalEmail?: string;
+  bankName?: string;
+  bankAccount?: string;
+  gender?: string;
+  maritalStatus?: string;
+  dateOfJoining?: string;
   avatar?: string;
   // Added optional password field to support registration and authentication flows
   password?: string;
