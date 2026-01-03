@@ -108,12 +108,90 @@ app.get('/api/employees', async (req, res) => {
   }
 });
 
+app.post("/api/employees", async (req, res) => {
+  try {
+    const {
+      email,
+      firstName,
+      lastName,
+      department,
+      designation,
+      salary,
+      role,
+    } = req.body;
+
+    // Check if employee with email already exists
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res
+        .status(400)
+        .json({ message: "Employee with this email already exists" });
+    }
+
+    // Generate automatic Employee ID
+    const count = await User.countDocuments();
+    const newEmployeeId = `EMP-${(count + 1).toString().padStart(3, "0")}`;
+
+    // Create new employee with provided details
+    const employee = await User.create({
+      employeeId: newEmployeeId,
+      firstName: firstName || "New",
+      lastName: lastName || "Employee",
+      email,
+      password: "123456", // Default password
+      role: role || "EMPLOYEE",
+      department: department || "General",
+      designation: designation || "Staff",
+      salary: salary || 50000,
+      joiningDate: new Date(),
+      avatar: `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=${
+        role === "ADMIN" ? "714B67" : "017E84"
+      }&color=fff`,
+    });
+
+    console.log(
+      `[SUCCESS] New employee ${employee.email} created with ID: ${employee.employeeId}`
+    );
+
+    res.status(201).json({
+      ...employee._doc,
+      id: employee._id.toString(),
+      message: "Employee created successfully",
+    });
+  } catch (err) {
+    console.error(`[ERROR] Failed to create employee: ${err.message}`);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 app.patch('/api/employees/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).json({ message: 'Employee not found' });
     res.json({ ...user._doc, id: user._id.toString() });
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.delete("/api/employees/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: "Employee not found" });
+
+    // Also delete related attendance and leave records
+    await Attendance.deleteMany({ userId: user.employeeId });
+    await Leave.deleteMany({ userId: user.employeeId });
+
+    console.log(
+      `[SUCCESS] Employee ${user.employeeId} and related records deleted`
+    );
+    res.json({
+      message: "Employee deleted successfully",
+      employeeId: user.employeeId,
+    });
+  } catch (err) {
+    console.error(`[ERROR] Failed to delete employee: ${err.message}`);
     res.status(500).json({ message: err.message });
   }
 });
