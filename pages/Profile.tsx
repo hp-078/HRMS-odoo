@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { User } from '../types';
+import { User, UserRole } from '../types';
 import { api } from '../services/api';
 
 interface ProfileProps {
@@ -12,6 +12,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
   const [formData, setFormData] = useState({ ...user });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const isEmployee = user.role !== UserRole.ADMIN;
 
   const handleSave = async () => {
     setLoading(true);
@@ -42,7 +43,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
                onClick={() => setIsEditing(!isEditing)}
                className="bg-white text-primary px-4 py-2 rounded-custom font-bold text-sm shadow hover:bg-softBg"
              >
-               {isEditing ? 'Cancel Editing' : 'Edit Profile'}
+               {isEditing ? 'Cancel Editing' : `Edit ${isEmployee ? 'Name' : 'Profile'}`}
              </button>
           </div>
         </div>
@@ -70,13 +71,13 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-mutedText uppercase mb-1">First Name</label>
-                  {isEditing ? (
+                  {isEditing && isEmployee ? (
                     <input className="w-full bg-softBg border border-borders p-2 rounded" value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} />
                   ) : <p className="font-semibold">{user.firstName}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-mutedText uppercase mb-1">Last Name</label>
-                  {isEditing ? (
+                  {isEditing && isEmployee ? (
                     <input className="w-full bg-softBg border border-borders p-2 rounded" value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} />
                   ) : <p className="font-semibold">{user.lastName}</p>}
                 </div>

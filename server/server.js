@@ -65,11 +65,11 @@ app.post('/api/auth/signup', async (req, res) => {
       email,
       password: password || '123456',
       firstName: firstName,
-      lastName: role === 'ADMIN' ? '(HR)' : '(Staff)',
+      lastName: role === 'ADMIN' ? '(HR)' : '(Employee)',
       employeeId: newEmployeeId,
       role: role || 'EMPLOYEE',
       department: role === 'ADMIN' ? 'Human Resources' : 'General',
-      designation: role === 'ADMIN' ? 'HR Manager' : 'Staff Member',
+      designation: role === 'ADMIN' ? 'HR Manager' : 'Employee Member',
       salary: role === 'ADMIN' ? 95000 : 50000,
       avatar: `https://ui-avatars.com/api/?name=${firstName}&background=${role === 'ADMIN' ? '714B67' : '017E84'}&color=fff`
     });
