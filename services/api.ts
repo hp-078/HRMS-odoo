@@ -103,6 +103,45 @@ export const api = {
     }
   },
 
+  addEmployee: async (employeeData: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    department: string;
+    designation: string;
+    salary: number;
+    role?: string;
+  }): Promise<User> => {
+    try {
+      return await handleFetch(`${BASE_URL}/employees`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(employeeData)
+      });
+    } catch (err: any) {
+      if (err.message === 'BACKEND_DISCONNECTED') {
+        const users = mockDb.getUsers();
+        const newUser: User = {
+          id: Math.random().toString(36).substr(2, 9),
+          employeeId: `EMP-${(users.length + 1).toString().padStart(3, '0')}`,
+          firstName: employeeData.firstName,
+          lastName: employeeData.lastName,
+          email: employeeData.email,
+          role: (employeeData.role as UserRole) || UserRole.EMPLOYEE,
+          department: employeeData.department,
+          designation: employeeData.designation,
+          joiningDate: new Date().toISOString().split('T')[0],
+          salary: employeeData.salary,
+          avatar: `https://ui-avatars.com/api/?name=${employeeData.firstName}+${employeeData.lastName}&background=017E84&color=fff`
+        };
+        users.push(newUser);
+        mockDb.saveUsers(users);
+        return newUser;
+      }
+      throw err;
+    }
+  },
+
   updateEmployee: async (id: string, updates: Partial<User>): Promise<User> => {
     try {
       return await handleFetch(`${BASE_URL}/employees/${id}`, {
@@ -119,6 +158,18 @@ export const api = {
         return users[idx];
       }
       throw err;
+    }
+  },
+
+  deleteEmployee: async (id: string): Promise<void> => {
+    try {
+      await handleFetch(`${BASE_URL}/employees/${id}`, {
+        method: 'DELETE'
+      });
+    } catch (err: any) {
+      const users = mockDb.getUsers();
+      const filtered = users.filter(u => u.id !== id);
+      mockDb.saveUsers(filtered);
     }
   },
 
