@@ -1,0 +1,7 @@
+{
+  "name": "Dayflow – Human Resource Management System",
+  "description": "A comprehensive enterprise-grade HRMS for attendance tracking, leave management, payroll, and employee analytics with a modern Odoo-inspired UI.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
