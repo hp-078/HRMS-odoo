@@ -4,7 +4,7 @@ import { User, UserRole } from './types.ts';
 import { api } from './services/api.ts';
 import { mockDb } from './services/mockDb.ts';
 
-// Pages
+// Pages and Components
 import LandingPage from './pages/LandingPage.tsx';
 import Layout from './components/Layout.tsx';
 import Dashboard from './pages/Dashboard.tsx';
